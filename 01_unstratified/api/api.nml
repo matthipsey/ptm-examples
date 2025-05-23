@@ -1,0 +1,305 @@
+! .***(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((*.!
+!.(((((((((((((((((((((((/////****/////((((((((((((((((((((((((((((((((((((((((!
+!((((((((((((((((((/*,,,...,,,,************//((((((((((((((((((((((((((((((((((!
+!((((((((((((((/*.....**//((((((((((((((((////*//((((((((((((((((((((((((((((((!
+!(((((((((((((/,.  .,///((((((((((((((((((((//////(((((((((((((((((((((((((((((!
+!((((((((((//,  ,**/(((((((((((((((((((((((((((((//((((((((((((((((((((((((((((!
+!(((((((((/,,  ,*//((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((!
+!(((((((/*.  .*/(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((!
+!((((((/*. ,,/(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((!
+!((((((/. .**/(((((((((((((///////(((((///////////////////////////////(((((((((!
+!((((//,  *//(((((((((((((/,     .**/(/..             ,.            ...*/((((((!
+!((((**. ,/((((((((((((((/*.      ..*(/..   .,,,,,,,,**,    .,,,,,..    .,//(((!
+!(((/,,  ,/((((((((((((((/,    .    *//..   ,**////////,    .*/////*..   .**/((!
+!(((/,, .*((((((((((((((/*    ,*.   .**..   ,//(((((((/,    ./((((((//,   ..*((!
+!(((/.. .*((((((((((((((*.  ..*/*.   .*,,    ......**//,    ./((((((((*.    ,/(!
+!(((/.. .*((((((((((((//,   ,,/(/.   .,,,          ,,//,    ./((((((((*.    ,/(!
+!(((/,, .*/((((((((((/**.   ,,***,    .,,.  .******//(/,    ./((((((//*.  ..*/(!
+!(((/**. ,/((((((((((*..               ..,. ,//(((((((/,    ./(((((/**.   ,,/((!
+!((((**. .*(((((((((/,     .........   ..,,.,//////////,    .*/////*..   .**/((!
+!((((//*  ,//((((((/*.   .*/((((((//,    .,.         .,.               .,/(((((!
+!((((((/,  ,,/(((((/,....*/(((((((((/,....,*,........,*,...........,**//(((((((!
+!(((((((*. ..*/((((//***//(((((((((((//**////********////********/////(((((((((!
+!((((((((/,   ,/(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((!
+!(((((((((/**. .,//((((((((((((((((((((((((((((((//((((((((((((((((((((((((((((!
+!((((((((((//*. .,,//(((((((((((((((((((((((((((///((((((((((((((((((((((((((((!
+!(((((((((((((//,.. .,**/((((((((((((((((((//////((((((((((((((((((((((((((((((!
+!(((((((((((((((/**,....,*////((((((((/////**///(((((((((((((((((((((((((((((((!
+!(((((((((((((((((((//**,,....,,,,,,,,***///(((((((((((((((((((((((((((((((((((!
+!.((((((((((((((((((((((((((////////((((((((((((((((((((((((((((((((((((((((**.!
+!###############################################################################
+! aed_models  :  List of AED modules to be simulated
+!-------------------------------------------------------------------------------
+!
+! List here the available aed modules to be included in the simulation.
+!       It is important they are listed in the correct order so dependencies
+!       can be set during the model set-up phase.
+!
+! For further detail about available AED modules visit:
+!       http://aquatic.science.uwa.edu.au/research/models/AED/
+!
+! NOTE: This example only includes CORE modules without all values and options
+!       configured. Refer to the web-links for summary tables of modules
+!       parameters, and  refer to AED+ documentation for details of
+!       configuration of the PLUS modules.
+!
+!-------------------------------------------------------------------------------
+&aed_models
+
+   models = 'aed_environ',
+            'aed_oxygen',
+            'aed_nitrogen',
+            'aed_phosphorus',
+            'aed_organic_matter',
+            'aed_bio_particles'
+/
+
+
+!###############################################################################
+! ENV: aed_environ
+!-----------------------------------------------------------
+&aed_environ
+   n_environs = 9
+   environs = 'temperature',
+              'salinity',
+              'density',
+              'layer_ht',
+              'layer_area',
+              'depth',
+              'extc_coef',
+              'pressure',
+              'bioextc',
+
+   n_sheet_environs = 9
+   sheet_environs = 'par_sf',
+              'wind_speed',
+              'air_temp',
+              'air_pres',
+              'rain',
+              'evap',
+              'humidity',
+              'col_depth',
+              'yearday',
+/
+
+
+!###############################################################################
+! OXY: aed_oxygen - AED oxygen model
+!
+! Refer to the below link for module settings & parameter details:
+! http://aquatic.science.uwa.edu.au/research/models/AED/aed_oxygen.html
+!
+!-------------------------------------------------------------------------------
+&aed_oxygen
+   oxy_initial   = 225.0
+   Fsed_oxy      = -20.0
+   Ksed_oxy      =  50.0
+   theta_sed_oxy =   1.08
+/
+
+
+!###############################################################################
+! NIT: aed_nitrogen - AED nitrogen model
+!
+! Refer to the below link for module settings & parameter details:
+! http://aquatic.science.uwa.edu.au/research/models/AED/aed_nutrient.html
+!
+!-------------------------------------------------------------------------------
+&aed_nitrogen
+  !-- Initial values
+   amm_initial = 12.7
+   nit_initial = 23.5
+   n2o_initial = 23.5
+  !-- Nitrification
+   Rnitrif =  0.1
+   Knitrif = 78.1
+   theta_nitrif = 1.08
+   nitrif_reactant_variable = 'OXY_oxy'
+   nitrif_ph_variable = ''
+   simNitrfpH = .false.
+   Rnh4o2 = 1.0          ! sames as Rnitrif?
+   Rno2o2 = 1.0
+  !-- N2O reactionss
+   simN2O = 0
+   Rn2o = 0.05
+   Kpart_ammox = 1.0
+   Kin_deamm = 1.0
+   atm_n2o = 0.32e-6     ! atm
+   n2o_piston_model = 4
+  !-- Annamox
+   Rnh4no2 = 1.0         ! same as Ranammox?
+   kanammox = 0.001
+   Kanmx_nit = 2.0
+   Kanmx_amm = 2.0
+  !-- De-nitrification
+   Rdenit = 0.26
+   Kdenit = 2.0
+   theta_denit = 1.08
+   Rdnra = 0.01,
+   Kdnra_oxy = 2.0,
+  !-- Atmospheric deposition
+   simDryDeposition = .true.
+   atm_din_dd = 0.5
+   simWetDeposition = .true.
+   atm_din_conc = 0.5
+  !-- Sediment fluxes
+   Fsed_amm =   3.5
+   Ksed_amm =  25.0
+   Fsed_nit =  -0.5
+   Ksed_nit = 100.0
+   Fsed_n2o =   0.0
+   Ksed_n2o = 100.0
+   theta_sed_amm = 1.08
+   theta_sed_nit = 1.08
+  !Fsed_amm_variable = 'SDF_Fsed_amm'
+  !Fsed_nit_variable = 'SDF_Fsed_nit'
+  !Fsed_n2o_variable = 'SDF_Fsed_n2o'
+/
+
+
+!###############################################################################
+! PHS: aed_phosphorus - AED phosphorus model
+!
+! Refer to the below link for module settings & parameter details:
+! http://aquatic.science.uwa.edu.au/research/models/AED/aed_nutrient.html
+!
+!-------------------------------------------------------------------------------
+&aed_phosphorus
+  !-- Initial value
+   frp_initial = 0.29
+  !-- Sediment flux
+   Fsed_frp = 0.08
+   Ksed_frp = 50.0
+   theta_sed_frp = 1.10
+   phosphorus_reactant_variable ='OXY_oxy'
+  !Fsed_frp_variable ='SDF_Fsed_frp'
+  !-- PO4 adsorption
+   simPO4Adsorption = .false.
+   ads_use_external_tss = .false.
+   po4sorption_target_variable =''
+   PO4AdsorptionModel = 1
+   Kpo4p = 0.1
+   ads_use_pH = .false.
+   Kadsratio= 1.0
+   Qmax = 1.0
+   w_po4ads = -9999     ! Note: -9999 links PO4-ad settling to target_variable
+  !-- Atmospheric deposition
+   simDryDeposition = .false.
+   atm_pip_dd = 0.00
+   simWetDeposition = .false.
+   atm_frp_conc = 0.00
+/
+
+!###############################################################################
+! OGM: aed_organic_matter - AED organic matter model
+!
+! Refer to the below link for module settings & parameter details:
+! http://aquatic.science.uwa.edu.au/research/models/AED/aed_organic_matter.html
+!
+!-------------------------------------------------------------------------------
+&aed_organic_matter
+   !-- Initial concentrations for OM variables (mmol/m3)
+     poc_initial  =  78.5
+     doc_initial  =  39.9
+     pon_initial  =   8.3
+     don_initial  =   1.3
+     pop_initial  =   8.3
+     dop_initial  =   1.5
+     docr_initial = 350.0
+     donr_initial =  13.0
+     dopr_initial =   3.0
+     cpom_initial = 100.0
+   !-- Breakdown and mineralisation (basic pool)
+     Rpoc_hydrol  =   0.05
+     Rdoc_minerl  =   0.001
+     Rpon_hydrol  =   0.05
+     Rdon_minerl  =   0.005
+     Rpop_hydrol  =   0.05
+     Rdop_minerl  =   0.001
+     theta_hydrol =   1.08
+     theta_minerl =   1.08
+     Kpom_hydrol  =  31.25
+     Kdom_minerl  =  31.25
+     simDenitrification = 1
+     dom_miner_oxy_reactant_var = 'OXY_oxy'
+   ! dom_miner_no2_reactant_var = 'NIT_no2'
+   ! dom_miner_n2o_reactant_var = 'NIT_n2o'
+   ! dom_miner_fe3_reactant_var = 'GEO_feiii'
+   ! dom_miner_so4_reactant_var = 'GEO_so4'
+   ! dom_miner_ch4_reactant_var = 'CAR_ch4'
+     doc_miner_product_variable = ''
+     don_miner_product_variable = 'NIT_amm'
+     dop_miner_product_variable = 'PHS_frp'
+     dom_miner_nit_reactant_var = 'NIT_nit'
+     f_an = 1.
+     K_nit               = 10.0
+   ! Kin_denitrat        = 20.0
+   ! Kin_denitrit        = 0.297
+   ! Kin_denitrous       = 0.205
+   ! Klim_denitrit       = 1
+   ! Klim_denitrous      = 1
+   ! Kpart_denitrit      = 1
+
+   !-- Refractory organic matter (optional)
+     simRPools    = .false.
+     Rdomr_minerl = 0.0001
+     Rcpom_bdown  = 0.0001
+     X_cpom_n     = 0.0005
+     X_cpom_p     = 0.0001
+
+    !-- Light related parameters
+     KeDOM         = 0.000005
+     KePOM         = 0.00096
+     KeDOMR        = 0.10000    ! = 1 (assuming KeDOMR is applied to CDOM in /m)
+     KeCPOM        = 0.00096    ! = 0.08 (/m)/(mg/L)  /83.3  (mmol/m3)/(mg/L)
+     simphotolysis = .false.    ! .true.
+    !photo_fmin
+     photo_c       = 0.75
+
+    !-- Particle settling parameters
+     settling     =  3
+     w_pom        = -0.06
+     d_pom        =  1e-5
+     rho_pom      = 1.2e3
+     w_cpom       = -0.01
+     d_cpom       =  1e-5
+     rho_cpom     = 1.4e3
+
+    !-- Sediment interaction parameters (basic model)
+     resuspension = 0
+     resus_link   = 'NCS_resus'
+     sedimentOMfrac = 0.0002
+     Xsc = 0.5
+     Xsn = 0.05
+     Xsp = 0.005
+     Fsed_doc = 0.0
+     Fsed_don = 0.0
+     Fsed_dop = 0.0
+     Ksed_dom = 4.5
+     theta_sed_dom = 1.08
+     !Fsed_doc_variable = 'SDF_Fsed_doc'
+     !Fsed_don_variable = 'SDF_Fsed_don'
+     !Fsed_dop_variable = 'SDF_Fsed_dop'
+
+     !-- Other options
+      extra_diag = .false. !.true.
+/
+
+
+!###############################################################################
+! PTM: aed_bioparticles - 
+!
+!-------------------------------------------------------------------------------
+&aed_bio_particles
+   vvel_new = 0 
+   vvel_old = 0
+   decay_rate_new = 0
+   decay_rate_old = 0
+   mass_limit = 0
+   diag_level = 0
+   X_dwww = 0
+   X_cdw = 0
+   X_nc = 0
+   X_pc = 0
+/
+
